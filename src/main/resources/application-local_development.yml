@@ -1,0 +1,18 @@
+spring:
+  profiles: local_development
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/sample
+    username: foo
+    password: bar
+    max-active: 10
+    max-idle: 10
+    min-idle: 10
+    initial-size: 10
+    jmx-enabled: true
+    test-on-borrow: true
+    validation-query: select 1
+server:
+  port: 30002
+management:
+  port: 30003

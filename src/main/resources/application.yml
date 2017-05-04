@@ -1,0 +1,4 @@
+spring:
+  profiles:
+    default: local_development
+    active: local_development
