@@ -3,6 +3,13 @@ package org.takastudy.tech.job.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.takastudy.tech.job.model.code.common.Status;
+import org.takastudy.tech.job.model.code.trigger.CorrelationMode;
+import org.takastudy.tech.job.model.code.trigger.ManualClose;
+import org.takastudy.tech.job.model.code.trigger.RecoveryMode;
+import org.takastudy.tech.job.model.code.trigger.TriggerPriority;
+import org.takastudy.tech.job.model.code.trigger.TriggerType;
+
 @XmlRootElement(name = "trigger")
 public class ZabbixTrigger extends ZabbixDocModel {
 	private String expression;
@@ -20,11 +27,15 @@ public class ZabbixTrigger extends ZabbixDocModel {
 	private String dependencies;
 	private String tags;
 
-	public static final String[] NAMES = { "name", "type", "space","expression", "recoveryMode", "recoveryExpression", "status",
-			"priority", "description", "manualClose", "correlationMode","space", "correlationTag", "dependencies", "tags" };
+	public static final String[] NAMES = { "name", "type","expression", "recoveryMode", "recoveryExpression", "status"
+			,"priority", "description", "manualClose", "correlationMode", "correlationTag", "dependencies", "tags" };
 
 	public String getExpression() {
-		return "\"" + expression + "\"";
+		return "\"" + convertCommma(expression) + "\"";
+	}
+	
+	private String convertCommma(String org){
+		return org.replaceAll(",", ";");
 	}
 
 	public void setExpression(String expression) {
@@ -33,7 +44,7 @@ public class ZabbixTrigger extends ZabbixDocModel {
 
 	@XmlElement(name = "recovery_mode")
 	public String getRecoveryMode() {
-		return recoveryMode;
+		return RecoveryMode.getType(Integer.parseInt(recoveryMode)).toString();
 	}
 
 	public void setRecoveryMode(String recoveryMode) {
@@ -59,7 +70,7 @@ public class ZabbixTrigger extends ZabbixDocModel {
 
 	@XmlElement(name = "correlation_mode")
 	public String getCorrelationMode() {
-		return correlationMode;
+		return CorrelationMode.getType(Integer.parseInt(correlationMode)).toString();
 	}
 
 	public void setCorrelationMode(String correlationMode) {
@@ -84,7 +95,7 @@ public class ZabbixTrigger extends ZabbixDocModel {
 	}
 
 	public String getStatus() {
-		return status;
+		return Status.getType(Integer.parseInt(status)).toString();
 	}
 
 	public void setStatus(String status) {
@@ -92,7 +103,7 @@ public class ZabbixTrigger extends ZabbixDocModel {
 	}
 
 	public String getPriority() {
-		return priority;
+		return TriggerPriority.getType(Integer.parseInt(priority)).toString();
 	}
 
 	public void setPriority(String priority) {
@@ -108,7 +119,7 @@ public class ZabbixTrigger extends ZabbixDocModel {
 	}
 
 	public String getType() {
-		return type;
+		return TriggerType.getType(Integer.parseInt(type)).toString();
 	}
 
 	public void setType(String type) {
@@ -117,7 +128,7 @@ public class ZabbixTrigger extends ZabbixDocModel {
 
 	@XmlElement(name = "manual_close")
 	public String getManualClose() {
-		return manualClose;
+		return ManualClose.getType(Integer.parseInt(manualClose)).toString();
 	}
 
 	public void setManualClose(String manualClose) {

@@ -3,6 +3,12 @@ package org.takastudy.tech.job.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.takastudy.tech.job.model.code.common.Status;
+import org.takastudy.tech.job.model.code.item.Delta;
+import org.takastudy.tech.job.model.code.item.ItemType;
+import org.takastudy.tech.job.model.code.item.ItemValueType;
+import org.takastudy.tech.job.model.code.item.MultiPlierFlag;
+
 @XmlRootElement(name = "item")
 public class ZabbixItem extends ZabbixDocModel {
 	private String name;
@@ -23,9 +29,9 @@ public class ZabbixItem extends ZabbixDocModel {
 	
 	private String templateName;
 	
-	public static final String[] NAMES = {"templateName","name","type","space","key",
-						"valueType","space","units","multiplier","formula","delta",
-						"delay","history","trends","snmpOid","snmpCommunity","status"};
+	public static final String[] NAMES = {"templateName","name","type","key",
+						"valueType","units","multiplier","formula","delay",
+						"history","trends","delta","status","snmpOid","snmpCommunity"};
 	
 	public String toString(){
 		StringBuilder build = new StringBuilder();
@@ -74,7 +80,7 @@ public class ZabbixItem extends ZabbixDocModel {
 	}
 
 	public String getType() {
-		return type;
+		return ItemType.getType(Integer.parseInt(type)).toString();
 	}
 
 	public void setType(String type) {
@@ -91,7 +97,7 @@ public class ZabbixItem extends ZabbixDocModel {
 	}
 
 	public String getMultiplier() {
-		return multiplier;
+		return MultiPlierFlag.getType(Integer.parseInt(multiplier)).toString();
 	}
 
 	public void setMultiplier(String multiplier) {
@@ -108,7 +114,11 @@ public class ZabbixItem extends ZabbixDocModel {
 	}
 
 	public String getKey() {
-		return "\""+key+"\"";
+		return "\""+convertCommma(key)+"\"";
+	}
+	
+	private String convertCommma(String org){
+		return org.replaceAll(",", ";");
 	}
 
 	public void setKey(String key) {
@@ -140,7 +150,7 @@ public class ZabbixItem extends ZabbixDocModel {
 	}
 
 	public String getStatus() {
-		return status;
+		return Status.getType(Integer.parseInt(status)).toString();
 	}
 
 	public void setStatus(String status) {
@@ -149,7 +159,7 @@ public class ZabbixItem extends ZabbixDocModel {
 
 	@XmlElement(name="value_type")
 	public String getValueType() {
-		return valueType;
+		return ItemValueType.getType(Integer.parseInt(valueType)).toString();
 	}
 
 	public void setValueType(String valueType) {
@@ -173,7 +183,7 @@ public class ZabbixItem extends ZabbixDocModel {
 	}
 
 	public String getDelta() {
-		return delta;
+		return Delta.getType(Integer.parseInt(delta)).toString();
 	}
 
 	public void setDelta(String delta) {
